@@ -12,12 +12,13 @@ const loginCredentials = {
 
 await agent.login(loginCredentials);
 //
-const { data } = await agent.getTimeline({
-  limit: 50,
+const { data } = await agent.getAuthorFeed({
+  actor: process.env.DID!,
 });
 
 const { feed: postsArray, cursor: _nextPage } = data;
 
 if (postsArray.length > 0) {
+  console.log('Deleting posts...');
   postsArray.forEach((post) => agent.deletePost(post.post.uri));
 }
